@@ -1,10 +1,8 @@
-﻿using DevFreela.API.Entities;
-using DevFreela.API.Models;
-using DevFreela.API.Persistence;
-using DevFreela.API.Services;
+﻿using DevFreela.Application.Models;
+using DevFreela.Infrastructure.Persistence;
+using DevFreela.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace DevFreela.API.Controllers
 {
@@ -37,7 +35,7 @@ namespace DevFreela.API.Controllers
 
         //GET api/projects/1234
         [HttpGet("{id}")]
-        public IActionResult GetById(int id) 
+        public IActionResult GetById(int id)
         {
             var project = _context.Projects
                 .Include(p => p.Client)
@@ -47,7 +45,7 @@ namespace DevFreela.API.Controllers
 
             var model = ProjectItemViewModel.FromEntity(project);
 
-            return Ok(model);    
+            return Ok(model);
         }
 
         // POST api/projects
@@ -59,7 +57,7 @@ namespace DevFreela.API.Controllers
             _context.Projects.Add(project);
             _context.SaveChanges();
 
-            return CreatedAtAction(nameof(GetById), new { id  = 1}, model);
+            return CreatedAtAction(nameof(GetById), new { id = 1 }, model);
         }
 
         // PUT api/projects/1234
@@ -68,7 +66,8 @@ namespace DevFreela.API.Controllers
         {
             var project = _context.Projects.SingleOrDefault(p => p.Id == id);
 
-            if (project == null) {
+            if (project == null)
+            {
                 return NotFound();
             }
 
@@ -82,7 +81,7 @@ namespace DevFreela.API.Controllers
 
         // DELETE api/projects/1234
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id) 
+        public IActionResult Delete(int id)
         {
             var project = _context.Projects.SingleOrDefault(p => p.Id == id);
 
@@ -100,7 +99,7 @@ namespace DevFreela.API.Controllers
 
         // PUT api/projects/1234/start
         [HttpPut("{id}/start")]
-        public  IActionResult Start(int id)
+        public IActionResult Start(int id)
         {
             var project = _context.Projects.SingleOrDefault(p => p.Id == id);
 

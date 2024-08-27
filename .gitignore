@@ -6,3 +6,9 @@
 /.vs
 /DevFreela.API/obj
 /DevFreela.API/appsettings.json
+/DevFreela.Application/bin/Debug/net8.0
+/DevFreela.Application/obj
+/DevFreela.Core/bin/Debug/net8.0
+/DevFreela.Core/obj
+/DevFreela.Infrastructure/bin/Debug/net8.0
+/DevFreela.Infrastructure/obj
