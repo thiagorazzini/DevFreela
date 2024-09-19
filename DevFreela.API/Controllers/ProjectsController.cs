@@ -3,6 +3,7 @@ using DevFreela.Infrastructure.Persistence;
 using DevFreela.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using DevFreela.Application.Services;
 
 namespace DevFreela.API.Controllers
 {
@@ -11,40 +12,55 @@ namespace DevFreela.API.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly DevFreelaDbContext _context;
-        public ProjectsController(DevFreelaDbContext context)
+        private readonly IProjectService _projectService;
+        public ProjectsController(DevFreelaDbContext context, IProjectService projectService)
         {
             _context = context;
+            _projectService = projectService;
         }
 
         // GET api/projects?search=crm
         [HttpGet]
         public IActionResult Get(string search = "", int page = 0, int size = 3)
         {
+            var result = _projectService.GetAll(search, page, size);
 
-            return Ok();
+            return Ok(result);
         }
 
         //GET api/projects/1234
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-           
+           var result = _projectService.GetById(id);
 
-            return Ok();
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
+            }
+
+            return Ok(result);
         }
 
         // POST api/projects
         [HttpPost]
         public IActionResult Post(CreateProjectInputModel model)
         {
+            var result = _projectService.Insert(model);
 
-            return CreatedAtAction(nameof(GetById), new { id = 1 }, model);
+            return CreatedAtAction(nameof(GetById), new { id = result.Data }, model);
         }
 
         // PUT api/projects/1234
         [HttpPut("{id}")]
         public IActionResult Put(int id, UpdateProjectInputModel model)
         {
+            var result = _projectService.Update(model);
+
+            if (!result.IsSuccess) {
+                return BadRequest(result.Message);
+            }
+
             return NoContent();
         }
 
@@ -52,7 +68,12 @@ namespace DevFreela.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            var result = _projectService.Delete(id);
 
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
+            }
 
             return NoContent();
         }
@@ -61,6 +82,11 @@ namespace DevFreela.API.Controllers
         [HttpPut("{id}/start")]
         public IActionResult Start(int id)
         {
+            var result = _projectService.Start(id);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
+            }
 
             return NoContent();
         }
@@ -69,16 +95,29 @@ namespace DevFreela.API.Controllers
         [HttpPut("{id}/complete")]
         public IActionResult Complete(int id)
         {
-            return Ok();
+            var result = _projectService.Complete(id);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
+            }
+
+            return NoContent();
         }
 
         // POST api/projects/1234/comments
         [HttpPost("{id}/comments")]
         public IActionResult PostComment(int id, CreateProjectCommentInputModel model)
         {
+            var result = _projectService.InsertComment(id, model);
 
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
+            }
 
-            return Ok();
+            return NoContent();
+
         }
 
     }
