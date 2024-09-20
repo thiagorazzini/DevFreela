@@ -1,9 +1,6 @@
 ﻿using DevFreela.Application.Models;
-using DevFreela.Infrastructure.Persistence;
-using DevFreela.Core.Entities;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using DevFreela.Application.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DevFreela.API.Controllers
 {
@@ -11,11 +8,9 @@ namespace DevFreela.API.Controllers
     [ApiController]
     public class ProjectsController : ControllerBase
     {
-        private readonly DevFreelaDbContext _context;
         private readonly IProjectService _projectService;
-        public ProjectsController(DevFreelaDbContext context, IProjectService projectService)
+        public ProjectsController(IProjectService projectService)
         {
-            _context = context;
             _projectService = projectService;
         }
 
@@ -32,7 +27,7 @@ namespace DevFreela.API.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-           var result = _projectService.GetById(id);
+            var result = _projectService.GetById(id);
 
             if (!result.IsSuccess)
             {
@@ -57,7 +52,8 @@ namespace DevFreela.API.Controllers
         {
             var result = _projectService.Update(model);
 
-            if (!result.IsSuccess) {
+            if (!result.IsSuccess)
+            {
                 return BadRequest(result.Message);
             }
 
