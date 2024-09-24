@@ -6,7 +6,6 @@ using DevFreela.Application.Commands.StartProject;
 using DevFreela.Application.Commands.UpdateProject;
 using DevFreela.Application.Queries.GetAllProjects;
 using DevFreela.Application.Queries.GetProjectById;
-using DevFreela.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,19 +15,17 @@ namespace DevFreela.API.Controllers
     [ApiController]
     public class ProjectsController : ControllerBase
     {
-        private readonly IProjectService _projectService;
         private readonly IMediator _mediator;
-        public ProjectsController(IProjectService projectService, IMediator mediator)
+        public ProjectsController(IMediator mediator)
         {
-            _projectService = projectService;
             _mediator = mediator;
         }
 
         // GET api/projects?search=crm
         [HttpGet]
-        public async Task<IActionResult> Get(string search = "", int page = 0, int size = 10)
+        public async Task<IActionResult> Get()
         {
-            var query = new GetAllProjectsQuery(search, page, size);
+            var query = new GetAllProjectsQuery();
 
             var result = await _mediator.Send(query);
 
