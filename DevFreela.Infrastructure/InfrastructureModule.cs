@@ -4,11 +4,6 @@ using DevFreela.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DevFreela.Infrastructure
 {
@@ -36,6 +31,7 @@ namespace DevFreela.Infrastructure
         {
             services.AddScoped<IProjectRepository, ProjectRespository>();
             services.AddScoped<ISkillRepository, SkillRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
     }
