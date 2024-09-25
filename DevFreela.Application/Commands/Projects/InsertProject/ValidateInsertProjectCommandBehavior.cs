@@ -2,7 +2,7 @@
 using DevFreela.Infrastructure.Persistence;
 using MediatR;
 
-namespace DevFreela.Application.Commands.InsertProject
+namespace DevFreela.Application.Commands.Projects.InsertProject
 {
     public class ValidateInsertProjectCommandBehavior
         : IPipelineBehavior<InsertProjectCommand, ResultViewModel<int>>
@@ -17,7 +17,7 @@ namespace DevFreela.Application.Commands.InsertProject
             var clientExists = _context.Users.Any(u => u.Id == request.IdClient);
             var freelancerExists = _context.Users.Any(u => u.Id == request.IdFreelancer);
 
-            if(!clientExists || !freelancerExists)
+            if (!clientExists || !freelancerExists)
             {
                 return ResultViewModel<int>.Error("Cliente ou Freelancer inválidos.");
             }

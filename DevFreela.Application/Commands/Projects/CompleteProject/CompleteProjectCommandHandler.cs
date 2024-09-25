@@ -4,26 +4,26 @@ using DevFreela.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace DevFreela.Application.Commands.StartProject
+namespace DevFreela.Application.Commands.Projects.CompleteProject
 {
-    public class StartProjectCommandHandler : IRequestHandler<StartProjectCommand, ResultViewModel>
+    public class CompleteProjectCommandHandler : IRequestHandler<CompleteProjectCommand, ResultViewModel>
     {
         private readonly IProjectRepository _repository;
-
-        public StartProjectCommandHandler(IProjectRepository repository)
+        public CompleteProjectCommandHandler(IProjectRepository repository)
         {
             _repository = repository;
         }
-        public async Task<ResultViewModel> Handle(StartProjectCommand request, CancellationToken cancellationToken)
+
+        public async Task<ResultViewModel> Handle(CompleteProjectCommand request, CancellationToken cancellationToken)
         {
             var project = await _repository.GetById(request.Id);
 
-            if (project is null)
+            if (project == null)
             {
                 return ResultViewModel<ProjectItemViewModel>.Error("Projeto não existe");
             }
 
-            project.Start();
+            project.Complete();
 
             await _repository.Update(project);
 

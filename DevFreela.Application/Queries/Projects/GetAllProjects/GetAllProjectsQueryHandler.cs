@@ -1,16 +1,14 @@
 ﻿using DevFreela.Application.Models;
 using DevFreela.Core.Repositories;
-using DevFreela.Infrastructure.Persistence;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
-namespace DevFreela.Application.Queries.GetAllProjects
+namespace DevFreela.Application.Queries.Projects.GetAllProjects
 {
-    public class GetAllProjectsCommandHandler : IRequestHandler<GetAllProjectsQuery, ResultViewModel<List<ProjectItemViewModel>>>
+    public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, ResultViewModel<List<ProjectItemViewModel>>>
     {
         private readonly IProjectRepository _repository;
 
-        public GetAllProjectsCommandHandler(IProjectRepository repository)
+        public GetAllProjectsQueryHandler(IProjectRepository repository)
         {
             _repository = repository;
         }

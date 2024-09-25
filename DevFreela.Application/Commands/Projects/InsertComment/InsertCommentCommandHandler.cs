@@ -5,7 +5,7 @@ using DevFreela.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace DevFreela.Application.Commands.InsertComment
+namespace DevFreela.Application.Commands.Projects.InsertComment
 {
     public class InsertCommentCommandHandler : IRequestHandler<InsertCommentCommand, ResultViewModel>
     {
